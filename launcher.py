@@ -7,14 +7,14 @@ from dotenv import load_dotenv
 from discord.ext import commands, tasks
 
 ##################################################################################################################################
+## If you want to keep in check on what happen, use this ##
+# import logging
 
-import logging
-
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+# logger = logging.getLogger('discord')
+# logger.setLevel(logging.DEBUG)
+# handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+# handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+# logger.addHandler(handler)
 
 ##################################################################################################################################
 
@@ -25,17 +25,14 @@ def get_prefix(bot, message):
 
 ##################################################################################################################################
 
-description = "The-weird... I feel like I've missed you but that doesn't the-make sense."
-personality = """You.. You... You... How dare you call me the-stinky again!
-               That is the last the-straw! I am the-fragrant!
-               Roses line up just to get the-one whiff of me!
-               What really the-stinks is your whole stupid existence!"""
-status = cycle(["but I'm Sleepy...", " for you", " takes forever"])
+DEFAULT_PREFIX = '!' # probably will put it in .env later
+description = "Bot desc here..."
+status = cycle(["status1", "status2", "status3"])
 
 bot = commands.Bot  (
                     command_prefix = get_prefix, 
                     description = description, 
-                    help_command = None
+                    # help_command = None # On this if creating a custom help command
                     )
 
 ##################################################################################################################################
@@ -56,7 +53,7 @@ async def on_guild_join(guild):
         prefixes = json.load(f)
 
     #default Prefix
-    prefixes[str(guild.id)] = "hey " 
+    prefixes[str(guild.id)] = DEFAULT_PREFIX
 
     with open("assets/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent = 4)
@@ -70,11 +67,6 @@ async def on_guild_left(guild):
 
     with open("assets/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent = 4)
-
-# @clear.errors
-# async def command_error(ctx, err):
-    # if isinstance(err, commands.MissingPermission):
-        # await ctx.send("Sorry, You don't seem to have enough power to do that")
 
 ##################################################################################################################################
 
@@ -91,12 +83,14 @@ async def status_update():
 
 ##################################################################################################################################
 
+# @fxName.errors
+# async def command_error(ctx, err):
+    # if isinstance(err, commands.MissingPermission):
+        # await ctx.send("Sorry, You don't seem to have enough power to do that")
 
-# @bot.command(aliases = ["play", "yt"])
-@bot.command()
-async def test(ctx):
-    await ctx.send("Testing")
-
+# @bot.command()
+# async def test(ctx):
+#     await ctx.send("Testing")
 
 ##################################################################################################################################
 
